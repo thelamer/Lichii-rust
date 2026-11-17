@@ -1622,6 +1622,7 @@ dependencies = [
  "egui",
  "egui-winit",
  "image",
+ "lichii-audio",
  "lichii-common",
  "lichii-core",
  "lichii-cpu",
