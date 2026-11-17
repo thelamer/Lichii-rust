@@ -17,13 +17,8 @@ pub(super) struct CpalOutput {
 }
 
 impl CpalOutput {
-    /// An output on the host called `host` (a cpal host name) and the device called `device`.
-    ///
-    /// A named host that is available is the only one tried, so the user's choice of backend
-    /// holds. Without one, the platform default host is tried first and then every other
-    /// available host: a device only another host lists is still found, and a host without a
-    /// usable default output falls through to the next. A named device no tried host lists falls
-    /// back to the default output.
+    /// An output on cpal host `host` and device `device`. A chosen host is the only one tried;
+    /// otherwise every available host is, the default first.
     pub(super) fn open(host: Option<&str>, device: Option<&str>) -> Option<Self> {
         let available = cpal::available_hosts();
         let requested = host.and_then(|name| {
@@ -174,8 +169,6 @@ fn device_name(device: &cpal::Device) -> Option<String> {
         .map(|description| description.name().to_string())
 }
 
-/// The hosts [`CpalOutput::open`] tries, in order: only `requested` when there is one, else
-/// `default` and then every other available host.
 fn candidate_hosts(
     requested: Option<HostId>,
     default: HostId,

@@ -643,8 +643,7 @@ fn time_zone(ui: &mut Ui, zone: &mut String) {
     }
 }
 
-/// A combo box of `none` (stored as `None`) and every name in `names`; a stored name that is not
-/// in `names` stays selected and shows as not found. True when the value changed.
+/// A combo box of `none` and `names`; true when the value changed.
 fn optional_combo<S: AsRef<str>>(
     ui: &mut Ui,
     id: &str,
@@ -678,8 +677,7 @@ fn optional_combo<S: AsRef<str>>(
     changed
 }
 
-/// The host audio backends and the output devices of one of them, read when the Audio page
-/// first needs them and on Refresh, since listing devices can block for a moment.
+/// Read on demand and on Refresh: listing devices can block.
 #[derive(Default)]
 struct AudioDevices {
     hosts: Option<Vec<&'static str>>,
@@ -687,7 +685,6 @@ struct AudioDevices {
 }
 
 impl AudioDevices {
-    /// The backends (the platform default first) and the devices of `host`.
     fn lists(&mut self, host: &Option<String>) -> (&[&'static str], &[String]) {
         let hosts = self
             .hosts
